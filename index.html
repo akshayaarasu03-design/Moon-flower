@@ -2,145 +2,135 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Our Moon Flower</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow: hidden; background: radial-gradient(circle at top, #050b16, #000);
+            overflow: hidden; background: #000;
             font-family: 'Times New Roman', serif; color: #e0f7fa;
         }
 
-        /* Starry Night Sky */
-        .stars {
+        /* Start Screen Gift Box */
+        #gift-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a0033, #000);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 200; transition: opacity 1s;
+        }
+        .box { font-size: 80px; cursor: pointer; filter: drop-shadow(0 0 20px #ff0055); animation: bounce 2s infinite; }
+        .tap-text { margin-top: 20px; font-size: 1.2rem; color: #ffb3d9; letter-spacing: 2px; }
+
+        /* Background Sky */
+        .sky {
             position: absolute; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.4; z-index: 1;
+            background: radial-gradient(circle at top, #050b16, #000);
+            z-index: 1;
         }
 
-        /* Bioluminescent Water Effect */
+        /* Bioluminescent Water */
         .water {
-            position: absolute; bottom: 0; width: 100%; height: 25%;
-            background: linear-gradient(transparent, #001f3f, #0077be);
-            box-shadow: 0 -15px 40px rgba(0, 242, 255, 0.3);
-            opacity: 0.8; z-index: 2;
+            position: absolute; bottom: 0; width: 100%; height: 20%;
+            background: linear-gradient(transparent, #004e92);
+            box-shadow: 0 -10px 40px rgba(0, 242, 255, 0.5);
+            z-index: 2; opacity: 0.8;
         }
 
-        /* The Moon */
+        /* MOON IMAGE (Your File) */
         #moon {
             position: absolute; left: 50%; top: 50%;
-            width: 110px; height: 110px;
-            background: #fdfdfd; border-radius: 50%;
+            width: 130px; height: 130px;
+            background: url('1000090823.jpg') no-repeat center center;
+            background-size: contain; border-radius: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 60px #fff, 0 0 100px #4facfe;
-            cursor: pointer; transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 50px #fff;
+            cursor: pointer; transition: all 3s ease-in-out;
             z-index: 10;
         }
 
-        /* The Flower */
+        /* FLOWER IMAGE (Your File) */
         #flower {
-            position: absolute; bottom: -150px; left: 50%;
-            width: 80px; height: 120px;
+            position: absolute; bottom: -200px; left: 50%;
+            width: 150px; height: 150px;
+            background: url('1000090793.jpg') no-repeat center center;
+            background-size: contain;
             transform: translateX(-50%);
-            cursor: pointer; opacity: 0; transition: all 2.5s ease-out;
+            opacity: 0; cursor: pointer; transition: all 2.5s ease-out;
             z-index: 5;
+            filter: drop-shadow(0 0 20px #00f2ff);
         }
 
-        .petal {
-            position: absolute; background: rgba(255, 255, 255, 0.9);
-            width: 35px; height: 60px; border-radius: 50% 50% 10% 50%;
-            box-shadow: 0 0 20px #00f2ff;
-            transform-origin: bottom center;
+        /* FULL TEXT LAYOUT - Fixed for long messages */
+        #message {
+            position: absolute; left: 10%; bottom: 22%; 
+            width: 80%; max-height: 45%; 
+            overflow-y: auto; text-align: center; 
+            z-index: 20; padding: 15px;
+            background: rgba(0,0,0,0.6); border-radius: 20px;
+            scrollbar-width: none;
         }
+        #message::-webkit-scrollbar { display: none; }
+        .line { opacity: 0; margin-bottom: 15px; transition: opacity 1.5s; font-size: 1.1rem; line-height: 1.5; font-style: italic; }
 
         /* Animation States */
-        .moon-up { top: 12% !important; width: 55px !important; height: 55px !important; box-shadow: 0 0 40px #fff; }
-        .flower-appear { bottom: 18% !important; opacity: 1 !important; animation: sway 4s infinite ease-in-out; }
-        .flower-fly { animation: flyToHim 6s forwards ease-in-out; }
+        .moon-up { top: 15% !important; width: 80px !important; height: 80px !important; }
+        .flower-appear { bottom: 18% !important; opacity: 1 !important; }
+        .flower-fly { animation: flyToHim 5s forwards; }
 
-        /* Line by Line Text */
-        #message {
-            position: absolute; right: 8%; top: 22%; width: 42%;
-            text-align: right; pointer-events: none; z-index: 15;
-            line-height: 1.8;
-        }
-        .line { opacity: 0; margin-bottom: 18px; transition: opacity 2s; font-size: 1.15rem; font-style: italic; text-shadow: 0 0 12px rgba(0, 242, 255, 0.6); }
-        .highlight { color: #81d4fa; font-weight: bold; font-size: 1.3rem; }
-
-        @keyframes sway {
-            0%, 100% { transform: translateX(-50%) rotate(-6deg); }
-            50% { transform: translateX(-50%) rotate(6deg); }
-        }
-
-        @keyframes flyToHim {
-            0% { transform: translate(-50%, 0) scale(1) rotate(0); }
-            30% { transform: translate(-180px, -250px) scale(1.3) rotate(60deg); }
-            60% { transform: translate(80px, -450px) scale(1.6) rotate(-60deg); }
-            100% { transform: translate(-40px, -280px) scale(2.8) rotate(0); filter: brightness(1.6) drop-shadow(0 0 30px #00f2ff); }
-        }
+        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes flyToHim { 100% { transform: translate(-10px, -180px) scale(2); filter: brightness(1.5); } }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="magic-sound">
-        <source src="https://www.soundjay.com/magic/sounds/magic-chime-01.mp3" type="audio/mpeg">
-    </audio>
+    <div id="gift-screen" onclick="openGift()">
+        <div class="box">🎁</div>
+        <div class="tap-text">Happy Rose Day... Tap to Open</div>
+    </div>
 
-    <div class="stars"></div>
+    <audio id="bg-music" loop><source src="https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3" type="audio/mpeg"></audio>
+    <audio id="moon-sound"><source src="https://www.soundjay.com/magic/sounds/magic-chime-01.mp3" type="audio/mpeg"></audio>
+    <audio id="flower-sound"><source src="https://www.soundjay.com/magic/sounds/magic-sparkle-01.mp3" type="audio/mpeg"></audio>
+
+    <div class="sky"></div>
     <div class="water"></div>
     <div id="moon" onclick="triggerMoon()"></div>
-    
-    <div id="flower" onclick="triggerFlower()">
-        <div class="petal" style="transform: rotate(0deg);"></div>
-        <div class="petal" style="transform: rotate(72deg);"></div>
-        <div class="petal" style="transform: rotate(144deg);"></div>
-        <div class="petal" style="transform: rotate(216deg);"></div>
-        <div class="petal" style="transform: rotate(288deg);"></div>
-    </div>
+    <div id="flower" onclick="triggerFlower()"></div>
 
     <div id="message">
         <div class="line" id="l1">The Moon flower is the symbol of blossoming at dark times.</div>
         <div class="line" id="l2">It represents us in all ways possible...</div>
-        <div class="line" id="l3">As you and I loved when we weren't supposed to.</div>
+        <div class="line" id="l3">As you and I loved when we weren't supposed to and when we were not meant to be but yet we found each other.</div>
         <div class="line" id="l4">We craved for each other and we loved each other.</div>
-        <div class="line" id="l5" style="margin-top: 35px;">“I see how hard you try.</div>
-        <div class="line" id="l6">I see your patience, your effort, your silence...</div>
+        <div class="line" id="l5" style="margin-top:20px;">“I see how hard you try.</div>
+        <div class="line" id="l6">I see your patience, your effort, your silence when things are tough.</div>
         <div class="line" id="l7">This rose is for the parts of you most people don’t notice—</div>
-        <div class="line" id="l8" class="highlight">But I do.”</div>
+        <div class="line" id="l8" style="color:#81d4fa; font-weight:bold;">But I do.”</div>
     </div>
 
     <script>
+        function openGift() {
+            document.getElementById('gift-screen').style.opacity = '0';
+            setTimeout(() => { document.getElementById('gift-screen').style.display = 'none'; }, 1000);
+            document.getElementById('bg-music').play();
+        }
+
         function triggerMoon() {
-            // Start background sounds
-            document.getElementById('bg-music').play().catch(e => console.log("Music play blocked until interaction"));
-            
-            const moon = document.getElementById('moon');
-            const flower = document.getElementById('flower');
-            moon.classList.add('moon-up');
-            
-            setTimeout(() => {
-                flower.classList.add('flower-appear');
-            }, 2500);
+            document.getElementById('moon-sound').play();
+            document.getElementById('moon').classList.add('moon-up');
+            setTimeout(() => { document.getElementById('flower').classList.add('flower-appear'); }, 2000);
         }
 
         function triggerFlower() {
-            // Play magical chime
-            document.getElementById('magic-sound').play();
-
-            const flower = document.getElementById('flower');
-            flower.classList.add('flower-fly');
+            document.getElementById('flower-sound').play();
+            document.getElementById('flower').classList.add('flower-fly');
             showLines();
         }
 
         function showLines() {
             const lines = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8'];
             lines.forEach((id, index) => {
-                setTimeout(() => {
-                    document.getElementById(id).style.opacity = "1";
-                }, index * 2800);
+                setTimeout(() => { document.getElementById(id).style.opacity = "1"; }, index * 2800);
             });
         }
     </script>
