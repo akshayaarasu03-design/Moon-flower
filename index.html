@@ -11,86 +11,80 @@
             font-family: 'Georgia', serif; color: #e0f7fa;
         }
 
-        /* Starry Night Sky */
+        /* Starry sky from your photo */
         .sky {
             position: absolute; width: 100%; height: 100%;
             background: radial-gradient(circle at top, #050b16, #000);
             z-index: 1;
         }
 
-        /* Glowing Water */
+        /* Bioluminescent Water Effect */
         .water {
             position: absolute; bottom: 0; width: 100%; height: 25%;
             background: linear-gradient(transparent, #004e92);
-            box-shadow: 0 -15px 60px rgba(0, 242, 255, 0.6);
+            box-shadow: 0 -15px 50px rgba(0, 242, 255, 0.6);
             z-index: 2; opacity: 0.8;
         }
 
         /* REAL MOON IMAGE */
         #moon {
             position: absolute; left: 50%; top: 50%;
-            width: 140px; height: 140px;
-            background: url('https://raw.githubusercontent.com/akshayaarasu03-design/Moon-flower/main/1000090823.jpg') no-repeat center center;
+            width: 130px; height: 130px;
+            background: url('1000090823.jpg') no-repeat center center;
             background-size: contain; border-radius: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.8);
             cursor: pointer; transition: all 3s ease-in-out;
             z-index: 10;
         }
 
         /* REAL FLOWER IMAGE */
         #flower {
-            position: absolute; bottom: -200px; left: 50%;
-            width: 150px; height: 150px;
-            background: url('https://raw.githubusercontent.com/akshayaarasu03-design/Moon-flower/main/1000090793.jpg') no-repeat center center;
+            position: absolute; bottom: -180px; left: 50%;
+            width: 140px; height: 140px;
+            background: url('1000090793.jpg') no-repeat center center;
             background-size: contain;
             transform: translateX(-50%);
             opacity: 0; cursor: pointer; transition: all 2.5s ease-out;
             z-index: 5;
-            filter: drop-shadow(0 0 20px #00f2ff);
+            filter: drop-shadow(0 0 15px #00f2ff);
         }
 
-        /* SCROLLABLE MESSAGE BOX */
+        /* Message Box - Fixed for mobile */
         #message {
-            position: absolute; left: 10%; bottom: 20%; 
-            width: 80%; max-height: 40%; 
+            position: absolute; left: 5%; bottom: 22%; 
+            width: 85%; max-height: 45%; 
             overflow-y: auto; text-align: center; 
             z-index: 20; padding: 15px;
             background: rgba(0,0,0,0.6); border-radius: 20px;
-            border: 1px solid rgba(0, 242, 255, 0.2);
             scrollbar-width: none;
         }
         #message::-webkit-scrollbar { display: none; }
         
-        .line { opacity: 0; margin-bottom: 20px; transition: opacity 2s; font-size: 1.1rem; line-height: 1.6; font-style: italic; }
+        .line { opacity: 0; margin-bottom: 15px; transition: opacity 1.5s; font-size: 1.05rem; line-height: 1.5; font-style: italic; }
 
         /* Animation States */
-        .moon-up { top: 15% !important; width: 80px !important; height: 80px !important; box-shadow: 0 0 30px #fff; }
-        .flower-appear { bottom: 15% !important; opacity: 1 !important; animation: sway 4s infinite ease-in-out; }
+        .moon-up { top: 15% !important; width: 70px !important; height: 70px !important; }
+        .flower-appear { bottom: 18% !important; opacity: 1 !important; }
         .flower-fly { animation: flyToHim 5s forwards cubic-bezier(0.4, 0, 0.2, 1); }
 
-        @keyframes sway {
-            0%, 100% { transform: translateX(-50%) rotate(-4deg); }
-            50% { transform: translateX(-50%) rotate(4deg); }
-        }
-
         @keyframes flyToHim {
-            100% { transform: translate(-10px, -200px) scale(2.2); filter: brightness(1.5) drop-shadow(0 0 40px #fff); }
+            100% { transform: translate(-10px, -180px) scale(2.2); filter: brightness(1.4) drop-shadow(0 0 30px #fff); }
         }
 
-        /* Initial Overlay */
+        /* Overlay for permissions */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100;
+            background: rgba(0,0,0,0.95); z-index: 100;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        #btn { padding: 20px 45px; background: transparent; color: #4facfe; border: 2px solid #4facfe; border-radius: 40px; font-size: 1.4rem; cursor: pointer; text-shadow: 0 0 10px #4facfe; box-shadow: 0 0 20px rgba(79, 172, 254, 0.4); }
+        #btn { padding: 18px 40px; background: #001f3f; color: white; border: 2px solid #00f2ff; border-radius: 35px; font-size: 1.3rem; }
     </style>
 </head>
 <body>
 
     <div id="overlay" onclick="startExperience()">
-        <button id="btn">Tap to open your Gift 🌙</button>
+        <button id="btn">Open Your Gift 🌙</button>
     </div>
 
     <audio id="bg-music" loop><source src="https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3" type="audio/mpeg"></audio>
@@ -107,10 +101,10 @@
         <div class="line" id="l2">It represents us in all ways possible...</div>
         <div class="line" id="l3">As you and I loved when we weren't supposed to and when we were not meant to be but yet we found each other.</div>
         <div class="line" id="l4">We craved for each other and we loved each other.</div>
-        <div class="line" id="l5" style="margin-top:20px;">“I see how hard you try.</div>
+        <div class="line" id="l5">“I see how hard you try.</div>
         <div class="line" id="l6">I see your patience, your effort, your silence when things are tough.</div>
         <div class="line" id="l7">This rose is for the parts of you most people don’t notice—</div>
-        <div class="line" id="l8" style="color:#81d4fa; font-weight:bold; font-size:1.3rem;">But I do.”</div>
+        <div class="line" id="l8" style="color:#81d4fa; font-weight:bold;">But I do.”</div>
     </div>
 
     <script>
@@ -140,4 +134,3 @@
     </script>
 </body>
 </html>
-
