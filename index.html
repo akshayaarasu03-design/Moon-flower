@@ -2,90 +2,147 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Moon Flower</title>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Georgia', serif; color: #fff; }
-        
-        /* Star Background */
-        .sky { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at top, #050b16, #000); z-index: 1; }
-        
-        /* The Moon Image */
-        #moon { 
-            position: absolute; left: 50%; top: 40%; width: 160px; height: 160px; 
-            background: url('1000090823.jpg') no-repeat center center;
-            background-size: contain; transform: translate(-50%, -50%);
-            cursor: pointer; z-index: 10; transition: all 2s ease;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background: radial-gradient(circle at top, #050b16, #000);
+            font-family: 'Times New Roman', serif; color: #e0f7fa;
         }
 
-        /* The Flower Image */
-        #flower { 
-            position: absolute; bottom: -200px; left: 50%; width: 180px; height: 180px; 
-            background: url('1000090793.jpg') no-repeat center center;
-            background-size: contain; transform: translateX(-50%);
-            opacity: 0; cursor: pointer; z-index: 5; transition: all 2s ease;
+        /* Starry Night Sky */
+        .stars {
+            position: absolute; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.4; z-index: 1;
         }
 
-        /* Message Box - Now at the bottom so it doesn't block the moon */
-        #message { 
-            position: absolute; bottom: 5%; left: 5%; width: 90%; 
-            max-height: 35%; overflow-y: auto; text-align: center; 
-            z-index: 20; background: rgba(0,0,0,0.8); border-radius: 15px;
-            padding: 10px; border: 1px solid #4facfe; display: none;
+        /* Bioluminescent Water Effect */
+        .water {
+            position: absolute; bottom: 0; width: 100%; height: 25%;
+            background: linear-gradient(transparent, #001f3f, #0077be);
+            box-shadow: 0 -15px 40px rgba(0, 242, 255, 0.3);
+            opacity: 0.8; z-index: 2;
         }
-        .line { opacity: 0; margin-bottom: 15px; transition: opacity 1.5s; font-size: 1.1rem; line-height: 1.4; }
 
-        /* Animations */
-        .moon-up { top: 15% !important; width: 80px !important; height: 80px !important; }
-        .flower-appear { bottom: 15% !important; opacity: 1 !important; }
-        .flower-fly { transform: translate(-50%, -150px) scale(1.5) !important; }
+        /* The Moon */
+        #moon {
+            position: absolute; left: 50%; top: 50%;
+            width: 110px; height: 110px;
+            background: #fdfdfd; border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 60px #fff, 0 0 100px #4facfe;
+            cursor: pointer; transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
 
-        /* Start Button */
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; display: flex; justify-content: center; align-items: center; }
-        #btn { padding: 20px 40px; background: #001f3f; color: #fff; border: 2px solid #4facfe; border-radius: 40px; font-size: 1.2rem; }
+        /* The Flower */
+        #flower {
+            position: absolute; bottom: -150px; left: 50%;
+            width: 80px; height: 120px;
+            transform: translateX(-50%);
+            cursor: pointer; opacity: 0; transition: all 2.5s ease-out;
+            z-index: 5;
+        }
+
+        .petal {
+            position: absolute; background: rgba(255, 255, 255, 0.9);
+            width: 35px; height: 60px; border-radius: 50% 50% 10% 50%;
+            box-shadow: 0 0 20px #00f2ff;
+            transform-origin: bottom center;
+        }
+
+        /* Animation States */
+        .moon-up { top: 12% !important; width: 55px !important; height: 55px !important; box-shadow: 0 0 40px #fff; }
+        .flower-appear { bottom: 18% !important; opacity: 1 !important; animation: sway 4s infinite ease-in-out; }
+        .flower-fly { animation: flyToHim 6s forwards ease-in-out; }
+
+        /* Line by Line Text */
+        #message {
+            position: absolute; right: 8%; top: 22%; width: 42%;
+            text-align: right; pointer-events: none; z-index: 15;
+            line-height: 1.8;
+        }
+        .line { opacity: 0; margin-bottom: 18px; transition: opacity 2s; font-size: 1.15rem; font-style: italic; text-shadow: 0 0 12px rgba(0, 242, 255, 0.6); }
+        .highlight { color: #81d4fa; font-weight: bold; font-size: 1.3rem; }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(-50%) rotate(-6deg); }
+            50% { transform: translateX(-50%) rotate(6deg); }
+        }
+
+        @keyframes flyToHim {
+            0% { transform: translate(-50%, 0) scale(1) rotate(0); }
+            30% { transform: translate(-180px, -250px) scale(1.3) rotate(60deg); }
+            60% { transform: translate(80px, -450px) scale(1.6) rotate(-60deg); }
+            100% { transform: translate(-40px, -280px) scale(2.8) rotate(0); filter: brightness(1.6) drop-shadow(0 0 30px #00f2ff); }
+        }
     </style>
 </head>
 <body>
-    <div id="overlay" onclick="start()"><button id="btn">Open Your Gift 🌙</button></div>
 
-    <audio id="bg"><source src="https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3"></audio>
-    <audio id="chime"><source src="https://www.soundjay.com/magic/sounds/magic-chime-01.mp3"></audio>
-    <audio id="sparkle"><source src="https://www.soundjay.com/magic/sounds/magic-sparkle-01.mp3"></audio>
+    <audio id="bg-music" loop>
+        <source src="https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="magic-sound">
+        <source src="https://www.soundjay.com/magic/sounds/magic-chime-01.mp3" type="audio/mpeg">
+    </audio>
 
-    <div class="sky"></div>
-    <div id="moon" onclick="tapMoon()"></div>
-    <div id="flower" onclick="tapFlower()"></div>
+    <div class="stars"></div>
+    <div class="water"></div>
+    <div id="moon" onclick="triggerMoon()"></div>
+    
+    <div id="flower" onclick="triggerFlower()">
+        <div class="petal" style="transform: rotate(0deg);"></div>
+        <div class="petal" style="transform: rotate(72deg);"></div>
+        <div class="petal" style="transform: rotate(144deg);"></div>
+        <div class="petal" style="transform: rotate(216deg);"></div>
+        <div class="petal" style="transform: rotate(288deg);"></div>
+    </div>
 
     <div id="message">
-        <div class="line">The Moon flower is the symbol of blossoming at dark times.</div>
-        <div class="line">It represents us in all ways possible...</div>
-        <div class="line">As you and I loved when we weren't supposed to and when we were not meant to be but yet we found each other.</div>
-        <div class="line">We craved for each other and we loved each other.</div>
-        <div class="line">“I see how hard you try.</div>
-        <div class="line">I see your patience, your effort, your silence when things are tough.</div>
-        <div class="line">This rose is for the parts of you most people don’t notice—</div>
-        <div class="line" style="color:#81d4fa; font-weight:bold;">But I do.”</div>
+        <div class="line" id="l1">The Moon flower is the symbol of blossoming at dark times.</div>
+        <div class="line" id="l2">It represents us in all ways possible...</div>
+        <div class="line" id="l3">As you and I loved when we weren't supposed to.</div>
+        <div class="line" id="l4">We craved for each other and we loved each other.</div>
+        <div class="line" id="l5" style="margin-top: 35px;">“I see how hard you try.</div>
+        <div class="line" id="l6">I see your patience, your effort, your silence...</div>
+        <div class="line" id="l7">This rose is for the parts of you most people don’t notice—</div>
+        <div class="line" id="l8" class="highlight">But I do.”</div>
     </div>
 
     <script>
-        function start() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('bg').play();
+        function triggerMoon() {
+            // Start background sounds
+            document.getElementById('bg-music').play().catch(e => console.log("Music play blocked until interaction"));
+            
+            const moon = document.getElementById('moon');
+            const flower = document.getElementById('flower');
+            moon.classList.add('moon-up');
+            
+            setTimeout(() => {
+                flower.classList.add('flower-appear');
+            }, 2500);
         }
-        function tapMoon() {
-            document.getElementById('chime').play();
-            document.getElementById('moon').classList.add('moon-up');
-            setTimeout(() => { document.getElementById('flower').classList.add('flower-appear'); }, 1500);
+
+        function triggerFlower() {
+            // Play magical chime
+            document.getElementById('magic-sound').play();
+
+            const flower = document.getElementById('flower');
+            flower.classList.add('flower-fly');
+            showLines();
         }
-        function tapFlower() {
-            document.getElementById('sparkle').play();
-            document.getElementById('flower').classList.add('flower-fly');
-            document.getElementById('message').style.display = 'block';
-            let lines = document.querySelectorAll('.line');
-            lines.forEach((l, i) => { setTimeout(() => { l.style.opacity = 1; }, i * 2500); });
+
+        function showLines() {
+            const lines = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8'];
+            lines.forEach((id, index) => {
+                setTimeout(() => {
+                    document.getElementById(id).style.opacity = "1";
+                }, index * 2800);
+            });
         }
     </script>
 </body>
 </html>
-_
