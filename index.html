@@ -2,136 +2,140 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Our Moon Flower</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow: hidden; background: radial-gradient(circle at top, #050b16, #000);
-            font-family: 'Times New Roman', serif; color: #e0f7fa;
+            overflow: hidden; background: #000;
+            font-family: 'Georgia', serif; color: #e0f7fa;
         }
 
-        /* Starry Night Sky */
-        .stars {
+        /* Starry Night from your image */
+        .sky {
             position: absolute; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.4; z-index: 1;
+            background: url('https://raw.githubusercontent.com/akshayaarasu03-design/Moon-flower/main/1000090824.jpg') no-repeat center center;
+            background-size: cover; z-index: 1;
         }
 
         /* Bioluminescent Water Effect */
         .water {
             position: absolute; bottom: 0; width: 100%; height: 25%;
-            background: linear-gradient(transparent, #001f3f, #0077be);
+            background: linear-gradient(transparent, rgba(0, 119, 190, 0.4));
             box-shadow: 0 -15px 40px rgba(0, 242, 255, 0.3);
-            opacity: 0.8; z-index: 2;
+            z-index: 2;
         }
 
-        /* The Moon */
+        /* Real Moon Image */
         #moon {
             position: absolute; left: 50%; top: 50%;
-            width: 110px; height: 110px;
-            background: #fdfdfd; border-radius: 50%;
+            width: 120px; height: 120px;
+            background: url('https://raw.githubusercontent.com/akshayaarasu03-design/Moon-flower/main/1000090823.jpg') no-repeat center center;
+            background-size: contain; border-radius: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 60px #fff, 0 0 100px #4facfe;
-            cursor: pointer; transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+            cursor: pointer; transition: all 3s ease-in-out;
             z-index: 10;
         }
 
-        /* The Flower */
+        /* Real Flower Image */
         #flower {
             position: absolute; bottom: -150px; left: 50%;
-            width: 80px; height: 120px;
+            width: 150px; height: 150px;
+            background: url('https://raw.githubusercontent.com/akshayaarasu03-design/Moon-flower/main/1000090793.jpg') no-repeat center center;
+            background-size: contain;
             transform: translateX(-50%);
-            cursor: pointer; opacity: 0; transition: all 2.5s ease-out;
+            opacity: 0; cursor: pointer; transition: all 2.5s ease-out;
             z-index: 5;
         }
 
-        .petal {
-            position: absolute; background: rgba(255, 255, 255, 0.9);
-            width: 35px; height: 60px; border-radius: 50% 50% 10% 50%;
-            box-shadow: 0 0 20px #00f2ff;
-            transform-origin: bottom center;
-        }
-
-        /* Animation States */
-        .moon-up { top: 12% !important; width: 55px !important; height: 55px !important; box-shadow: 0 0 40px #fff; }
-        .flower-appear { bottom: 18% !important; opacity: 1 !important; animation: sway 4s infinite ease-in-out; }
-        .flower-fly { animation: flyToHim 6s forwards ease-in-out; }
-
-        /* Line by Line Text */
+        /* Scrollable Message Box */
         #message {
-            position: absolute; right: 8%; top: 22%; width: 42%;
-            text-align: right; pointer-events: none; z-index: 15;
-            line-height: 1.8;
+            position: absolute; right: 5%; top: 15%; 
+            width: 45%; max-height: 70%; 
+            overflow-y: auto; text-align: right; 
+            padding-right: 15px; z-index: 20;
+            scrollbar-width: none;
         }
-        .line { opacity: 0; margin-bottom: 18px; transition: opacity 2s; font-size: 1.15rem; font-style: italic; text-shadow: 0 0 12px rgba(0, 242, 255, 0.6); }
+        #message::-webkit-scrollbar { display: none; }
+        
+        .line { opacity: 0; margin-bottom: 20px; transition: opacity 2s; font-size: 1.1rem; line-height: 1.6; font-style: italic; text-shadow: 2px 2px 10px #000; }
         .highlight { color: #81d4fa; font-weight: bold; font-size: 1.3rem; }
 
+        /* Animation States */
+        .moon-up { top: 15% !important; width: 70px !important; height: 70px !important; }
+        .flower-appear { bottom: 15% !important; opacity: 1 !important; animation: sway 4s infinite ease-in-out; }
+        .flower-fly { animation: flyToHim 5s forwards ease-in-out; }
+
         @keyframes sway {
-            0%, 100% { transform: translateX(-50%) rotate(-6deg); }
-            50% { transform: translateX(-50%) rotate(6deg); }
+            0%, 100% { transform: translateX(-50%) rotate(-3deg); }
+            50% { transform: translateX(-50%) rotate(3deg); }
         }
 
         @keyframes flyToHim {
-            0% { transform: translate(-50%, 0) scale(1) rotate(0); }
-            30% { transform: translate(-180px, -250px) scale(1.3) rotate(60deg); }
-            60% { transform: translate(80px, -450px) scale(1.6) rotate(-60deg); }
-            100% { transform: translate(-40px, -280px) scale(2.8) rotate(0); filter: brightness(1.6) drop-shadow(0 0 30px #00f2ff); }
+            100% { transform: translate(-30px, -200px) scale(2); filter: drop-shadow(0 0 20px #fff); }
         }
+
+        /* Start Overlay for Audio Permissions */
+        #overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.9); z-index:100;
+            display:flex; flex-direction:column; justify-content:center; align-items:center;
+        }
+        #btn { padding: 15px 40px; background: #001f3f; border: 1px solid #4facfe; color: white; border-radius: 30px; font-size: 1.2rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
+    <div id="overlay" onclick="startApp()">
+        <button id="btn">Open Your Gift 🌙</button>
+    </div>
+
     <audio id="bg-music" loop>
         <source src="https://www.soundjay.com/nature/sounds/ocean-wave-1.mp3" type="audio/mpeg">
     </audio>
-    <audio id="magic-sound">
+    <audio id="moon-sound">
         <source src="https://www.soundjay.com/magic/sounds/magic-chime-01.mp3" type="audio/mpeg">
     </audio>
+    <audio id="flower-sound">
+        <source src="https://www.soundjay.com/magic/sounds/magic-sparkle-01.mp3" type="audio/mpeg">
+    </audio>
 
-    <div class="stars"></div>
+    <div class="sky"></div>
     <div class="water"></div>
     <div id="moon" onclick="triggerMoon()"></div>
-    
-    <div id="flower" onclick="triggerFlower()">
-        <div class="petal" style="transform: rotate(0deg);"></div>
-        <div class="petal" style="transform: rotate(72deg);"></div>
-        <div class="petal" style="transform: rotate(144deg);"></div>
-        <div class="petal" style="transform: rotate(216deg);"></div>
-        <div class="petal" style="transform: rotate(288deg);"></div>
-    </div>
+    <div id="flower" onclick="triggerFlower()"></div>
 
     <div id="message">
         <div class="line" id="l1">The Moon flower is the symbol of blossoming at dark times.</div>
         <div class="line" id="l2">It represents us in all ways possible...</div>
-        <div class="line" id="l3">As you and I loved when we weren't supposed to.</div>
+        <div class="line" id="l3">As you and I loved when we weren't supposed to and when we were not meant to be but yet we found each other.</div>
         <div class="line" id="l4">We craved for each other and we loved each other.</div>
-        <div class="line" id="l5" style="margin-top: 35px;">“I see how hard you try.</div>
-        <div class="line" id="l6">I see your patience, your effort, your silence...</div>
+        <div class="line" id="l5">“I see how hard you try.</div>
+        <div class="line" id="l6">I see your patience, your effort, your silence when things are tough.</div>
         <div class="line" id="l7">This rose is for the parts of you most people don’t notice—</div>
         <div class="line" id="l8" class="highlight">But I do.”</div>
     </div>
 
     <script>
+        function startApp() {
+            document.getElementById('overlay').style.display = 'none';
+            // Start silent romantic background
+            document.getElementById('bg-music').play();
+        }
+
         function triggerMoon() {
-            // Start background sounds
-            document.getElementById('bg-music').play().catch(e => console.log("Music play blocked until interaction"));
-            
+            document.getElementById('moon-sound').play();
             const moon = document.getElementById('moon');
-            const flower = document.getElementById('flower');
             moon.classList.add('moon-up');
-            
             setTimeout(() => {
-                flower.classList.add('flower-appear');
+                document.getElementById('flower').classList.add('flower-appear');
             }, 2500);
         }
 
         function triggerFlower() {
-            // Play magical chime
-            document.getElementById('magic-sound').play();
-
-            const flower = document.getElementById('flower');
-            flower.classList.add('flower-fly');
+            document.getElementById('flower-sound').play();
+            document.getElementById('flower').classList.add('flower-fly');
             showLines();
         }
 
@@ -140,7 +144,7 @@
             lines.forEach((id, index) => {
                 setTimeout(() => {
                     document.getElementById(id).style.opacity = "1";
-                }, index * 2800);
+                }, index * 3000); // 3 seconds per line to give time to read
             });
         }
     </script>
