@@ -1,122 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Surprise</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sree</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ff4d4d; /* Red Background */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
 
-<style>
-body {
-  margin: 0;
-  overflow: hidden;
-  background: #c40000;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  position: relative;
-}
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            animation: float 5s linear infinite;
+        }
 
-/* Floating Hearts */
-.heart {
-  position: absolute;
-  color: white;
-  font-size: 20px;
-  animation: float 8s linear infinite;
-  opacity: 0.8;
-  z-index: 0;
-}
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
 
-@keyframes float {
-  0% { transform: translateY(100vh); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
-}
+        /* Envelope Styling */
+        .envelope-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+            z-index: 10;
+        }
 
-/* Button */
-.button {
-  padding: 15px 25px;
-  background: white;
-  color: #c40000;
-  border-radius: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 2;
-}
+        .envelope-wrapper:hover {
+            transform: scale(1.1);
+        }
 
-/* Letter */
-.letter-container {
-  display: none;
-  cursor: pointer;
-  z-index: 2;
-  margin-top: 20px;
-}
+        .envelope {
+            width: 150px;
+            height: 100px;
+            background: #fff;
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
 
-.envelope {
-  width: 220px;
-  height: 150px;
-  background: white;
-  position: relative;
-  border-radius: 10px;
-}
+        /* The Red Bow */
+        .bow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 20px;
+            background: #d63031;
+            border-radius: 50%;
+            z-index: 5;
+        }
+        .bow::before, .bow::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #d63031;
+            border-radius: 50% 50% 0 50%;
+            top: -5px;
+            left: -20px;
+            transform: rotate(-45deg);
+        }
+        .bow::after {
+            left: auto;
+            right: -20px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(45deg);
+        }
 
-.flap {
-  width: 0;
-  height: 0;
-  border-left: 110px solid transparent;
-  border-right: 110px solid transparent;
-  border-bottom: 75px solid #ff1a1a;
-  position: absolute;
-  top: -75px;
-}
+        /* Modal / Message Box */
+        #message-box {
+            display: none;
+            position: fixed;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
 
-/* Message */
-.message {
-  display: none;
-  color: white;
-  font-size: 26px;
-  text-align: center;
-  margin-top: 30px;
-  z-index: 2;
-}
-</style>
+        h1 {
+            color: #ff4d4d;
+            margin: 0;
+            font-size: 2rem;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="button" onclick="showLetter()">Click for Surprise ❤️</div>
+    <div class="envelope-wrapper" onclick="openLetter()">
+        <div class="envelope">
+            <div class="bow"></div>
+        </div>
+    </div>
 
-<div class="letter-container" id="letter" onclick="openLetter()">
-  <div class="flap"></div>
-  <div class="envelope"></div>
-</div>
+    <div id="message-box">
+        <h1>Happy Valentine's Day, Sree! ❤️</h1>
+    </div>
 
-<div class="message" id="message">
-  💖✨ Happy Valentine's Day Sree ✨💖
-</div>
+    <script>
+        // Create falling white hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
 
-<script>
-/* Create floating hearts */
-for (let i = 0; i < 30; i++) {
-  let heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "🤍";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
-  document.body.appendChild(heart);
-}
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
 
-function showLetter() {
-  document.querySelector(".button").style.display = "none";
-  document.getElementById("letter").style.display = "block";
-}
+        setInterval(createHeart, 300);
 
-function openLetter() {
-  document.getElementById("letter").style.display = "none";
-  document.getElementById("message").style.display = "block";
-}
-</script>
-
+        // Open letter function
+        function openLetter() {
+            document.querySelector('.envelope-wrapper').style.display = 'none';
+            document.getElementById('message-box').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
